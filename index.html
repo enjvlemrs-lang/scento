@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scent of M | Premium Boutique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+        body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; }
+        .serif { font-family: 'Cormorant Garamond', serif; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur border-b px-8 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold serif">SCENT OF M</h1>
+        <div class="flex gap-4">
+            <button onclick="filterProducts('All')" class="hover:text-[#C9A96A]">All</button>
+            <button onclick="filterProducts('Coffee')" class="hover:text-[#C9A96A]">Coffee</button>
+            <button onclick="filterProducts('Cake')" class="hover:text-[#C9A96A]">Cake</button>
+            <button onclick="filterProducts('Gelato')" class="hover:text-[#C9A96A]">Gelato</button>
+            <button onclick="filterProducts('Meal')" class="hover:text-[#C9A96A]">Meal</button>
+            <button onclick="toggleCart()" class="ml-10 font-bold">🛒 <span id="cartCount">0</span></button>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 container mx-auto px-6">
+        <button onclick="toggleAdmin()" class="text-[10px] text-gray-400 mb-4">ADMIN ACCESS</button>
+        <div id="adminPanel" class="hidden bg-white p-6 mb-10 shadow-md">
+            <h2 class="text-xl serif mb-4">Add Menu Item</h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <input id="pName" placeholder="Name" class="border p-2">
+                <input id="pPrice" placeholder="Price" type="number" class="border p-2">
+                <select id="pCat" class="border p-2">
+                    <option>Coffee</option><option>Cake</option><option>Gelato</option><option>Meal</option>
+                </select>
+                <input id="pImg" placeholder="Image URL" class="border p-2">
+                <button onclick="addProduct()" class="bg-black text-white">Add</button>
+            </div>
+        </div>
+
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
+    </main>
+
+    <div id="cartSidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl p-8 transform translate-x-full transition-transform z-50">
+        <h2 class="text-2xl serif mb-8">Your Order</h2>
+        <div id="cartItems" class="space-y-4"></div>
+        <button onclick="checkout()" class="w-full mt-10 bg-[#C9A96A] text-white py-3">Confirm Order</button>
+    </div>
+
+    <script>
+        let products = JSON.parse(localStorage.getItem('products')) || [
+            { id: 1, name: 'Latte', price: 5, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1561882468-9404e83be3a5' },
+            { id: 2, name: 'Cheesecake', price: 8, cat: 'Cake', img: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad' }
+        ];
+        let cart = [];
+
+        function render(filter = 'All') {
+            const grid = document.getElementById('productGrid');
+            const filtered = filter === 'All' ? products : products.filter(p => p.cat === filter);
+            grid.innerHTML = filtered.map(p => `
+                <div class="border p-4 hover:shadow-lg transition">
+                    <img src="${p.img}" class="w-full h-60 object-cover mb-4">
+                    <h3 class="text-lg serif">${p.name}</h3>
+                    <p class="text-[#C9A96A]">$${p.price}</p>
+                    <button onclick="addToCart(${p.id})" class="mt-2 w-full border py-1">Add</button>
+                </div>
+            `).join('');
+        }
+
+        function addProduct() {
+            products.push({ 
+                id: Date.now(), 
+                name: document.getElementById('pName').value,
+                price: Number(document.getElementById('pPrice').value),
+                cat: document.getElementById('pCat').value,
+                img: document.getElementById('pImg').value
+            });
+            localStorage.setItem('products', JSON.stringify(products));
+            render();
+        }
+
+        function addToCart(id) {
+            cart.push(products.find(p => p.id === id));
+            document.getElementById('cartCount').innerText = cart.length;
+        }
+
+        function filterProducts(cat) { render(cat); }
+        function toggleAdmin() { if(prompt("Pass:") === 'moeed1490') document.getElementById('adminPanel').classList.toggle('hidden'); }
+        function toggleCart() { document.getElementById('cartSidebar').classList.toggle('translate-x-full'); }
+        function checkout() { alert("Order Sent to Kitchen!"); cart=[]; document.getElementById('cartCount').innerText = 0; toggleCart(); }
+
+        render();
+    </script>
+</body>
+</html>
