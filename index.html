@@ -491,3 +491,111 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scent of M | PRO SHOP</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        gold: '#C9A96A',
+        dark: '#1A1A1A'
+      }
+    }
+  }
+}
+</script>
+
+<style>
+body { background:#111; color:white; }
+</style>
+</head>
+
+<body class="bg-dark text-white">
+
+<!-- HEADER -->
+<header class="flex justify-between items-center p-4 border-b border-gold">
+  <h1 class="text-gold text-xl font-bold">SCENT OF M</h1>
+  <button onclick="toggleCart()" class="bg-gold text-black px-3 py-1">Cart (<span id="count">0</span>)</button>
+</header>
+
+<!-- HERO -->
+<section class="text-center p-10">
+  <h2 class="text-3xl text-gold">Luxury Coffee Boutique</h2>
+  <p class="text-gray-300">PRO SHOP VERSION</p>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4"></section>
+
+<!-- CART -->
+<div id="cart" class="fixed right-0 top-0 w-80 h-full bg-black border-l border-gold p-4 hidden">
+  <h2 class="text-gold text-lg mb-4">Cart</h2>
+  <div id="cartItems"></div>
+  <p class="mt-4">Total: <span id="total">0</span> ₮</p>
+</div>
+
+<script>
+// ---------------- PRODUCTS ----------------
+let products = [
+  {id:1, name:"Espresso", price:6500},
+  {id:2, name:"Cappuccino", price:7500},
+  {id:3, name:"Latte", price:8000}
+];
+
+let cart = [];
+
+// ---------------- RENDER PRODUCTS ----------------
+function renderProducts(){
+  document.getElementById("products").innerHTML =
+    products.map(p=>`
+      <div class="border border-gold p-3">
+        <h3 class="text-gold">${p.name}</h3>
+        <p>${p.price} ₮</p>
+        <button onclick="add(${p.id})" class="bg-gold text-black px-2 py-1 mt-2">Add</button>
+      </div>
+    `).join("");
+}
+renderProducts();
+
+// ---------------- CART ----------------
+function add(id){
+  let item = products.find(p=>p.id===id);
+  let exist = cart.find(c=>c.id===id);
+
+  if(exist) exist.qty++;
+  else cart.push({...item, qty:1});
+
+  updateCart();
+}
+
+function updateCart(){
+  document.getElementById("count").innerText =
+    cart.reduce((a,b)=>a+b.qty,0);
+
+  document.getElementById("cartItems").innerHTML =
+    cart.map(c=>`
+      <div class="mb-2 border-b border-gray-700">
+        ${c.name} x ${c.qty}
+      </div>
+    `).join("");
+
+  let total = cart.reduce((a,b)=>a+b.price*b.qty,0);
+  document.getElementById("total").innerText = total;
+}
+
+// ---------------- CART TOGGLE ----------------
+function toggleCart(){
+  document.getElementById("cart").classList.toggle("hidden");
+}
+</script>
+
+</body>
+</html>
