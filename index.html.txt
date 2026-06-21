@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="mn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scent of M | Luxury Italian Coffee Boutique</title>
+    <!-- Tailwind CSS for modern editorial layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Luxury Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@200;400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: '#F8F6F2',
+                        beige: '#D8C3A5',
+                        espresso: '#3A2417',
+                        luxuryBlack: '#1A1A1A',
+                        gold: '#C9A96A'
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #F8F6F2; color: #1A1A1A; }
+        .font-luxury { font-family: 'Cormorant Garamond', serif; }
+        .hero-bg {
+            background-image: linear-gradient(rgba(26, 26, 26, 0.4), rgba(26, 26, 26, 0.7)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- LOCALE / LANGUAGE DATA -->
+    <script>
+        const translations = {
+            mn: {
+                heroTitle: "Итали Кофены Урлагийг Мэдэр",
+                heroSub: "Scent of M-д дусал бүр нь түүх өгүүлж, балгалт бүр нь тансаг мэдрэмжийг төрүүлнэ. Төгс боловсруулсан Итали амт.",
+                shopNow: "Одоо Шоппинг Хийх",
+                aboutTitle: "Бидний Түүх",
+                aboutText: "Scent of M нь зөвхөн кофе шопоос гадна Италийн гар урлал, соёл, тансаг зэрэглэлийн илэрхийлэл юм. Бид дэлхийн хамгийн шилдэг үрсийг уламжлалт аргаар хуурч, аяга бүрт төгс чанарыг шингээдэг.",
+                contactTitle: "Холбоо Барих",
+                cartTitle: "Таны Сагс",
+                checkoutTitle: "Захиалга Баталгаажуулах",
+                orderSuccess: "Таны захиалгад баярлалаа. Бид таны люкс кофег бэлдэж байна.",
+                placeOrder: "Захиалга Өгөх",
+                delivery: "Хүргэлт",
+                pickup: "Очиж авах",
+                total: "Нийт"
+            },
+            en: {
+                heroTitle: "Experience the Art of Italian Coffee",
+                heroSub: "At Scent of M, every drop tells a story, and every sip evokes true luxury. Perfectly crafted Italian experience.",
+                shopNow: "Shop Now",
+                aboutTitle: "Our Heritage",
+                aboutText: "Scent of M is not just a boutique; it is an embodiment of Italian craftsmanship, culture, and high-end luxury. We source the finest beans to roast to absolute perfection.",
+                contactTitle: "Contact Us",
+                cartTitle: "Your Shopping Bag",
+                checkoutTitle: "Checkout Details",
+                orderSuccess: "Thank you for your order. We are preparing your luxury coffee experience.",
+                placeOrder: "Complete Purchase",
+                delivery: "Delivery",
+                pickup: "Pickup",
+                total: "Total"
+            },
+            zh: {
+                heroTitle: "体验意式咖啡的艺术",
+                heroSub: "在 Scent of M，每一滴都是故事，每一口都是极致奢华。完美打造的纯正意大利风味。",
+                shopNow: "立即购买",
+                aboutTitle: "关于我们",
+                aboutText: "Scent of M 不仅仅是一家咖啡厅，更是意大利手工艺、文化与高端奢华的化身。我们精选全球最顶级咖啡豆，只为奉上完美的一杯。",
+                contactTitle: "联系我们",
+                cartTitle: "您的购物袋",
+                checkoutTitle: "结账信息",
+                orderSuccess: "感谢您的光临。我们正在为您准备专属的奢华咖啡体验。",
+                placeOrder: "确认订单",
+                delivery: "外送",
+                pickup: "自提",
+                total: "总计"
+            }
+        };
+
+        let currentLang = 'mn';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.innerText = translations[lang][key];
+                }
+            });
+            renderCatalog();
+        }
+    </script>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="fixed w-full z-40 bg-luxuryBlack/90 text-ivory backdrop-blur-md border-b border-gold/20 px-6 py-4 flex justify-between items-center">
+        <a href="#" class="text-2xl md:text-3xl font-luxury tracking-widest text-gold font-bold">SCENT OF M</a>
+        <nav class="hidden md:flex space-x-8 text-xs tracking-widest uppercase">
+            <a href="#home" class="hover:text-gold transition">Home</a>
+            <a href="#boutique" class="hover:text-gold transition">Boutique</a>
+            <a href="#about" class="hover:text-gold transition">About</a>
+            <a href="#contact" class="hover:text-gold transition">Contact</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+            <select onchange="changeLanguage(this.value)" class="bg-transparent border border-gold/40 text-xs py-1 px-2 text-gold outline-none cursor-pointer">
+                <option value="mn" class="bg-luxuryBlack text-ivory">MN</option>
+                <option value="en" class="bg-luxuryBlack text-ivory">EN</option>
+                <option value="zh" class="bg-luxuryBlack text-ivory">ZH</option>
+            </select>
+            <button onclick="toggleCart()" class="relative p-2 text-gold hover:scale-105 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375 .375 0 11-.75 0 .375 .375 0 01.75 0zm7.5 0a.375 .375 0 11-.75 0 .375 .375 0 01.75 0z" />
+                </svg>
+                <span id="cart-count" class="absolute -top-1 -right-1 bg-gold text-luxuryBlack text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero-bg h-screen w-full flex items-center justify-center text-center px-4 pt-16">
+        <div class="max-w-3xl space-y-6">
+            <h1 data-i18n="heroTitle" class="text-4xl md:text-7xl font-luxury text-ivory tracking-wide leading-tight">Итали Кофены Урлагийг Мэдэр</h1>
+            <p data-i18n="heroSub" class="text-sm md:text-base text-ivory/80 font-light tracking-wide max-w-xl mx-auto">Scent of M-д дусал бүр нь түүх өгүүлж, балгалт бүр нь тансаг мэдрэмжийг төрүүлнэ. Төгс боловсруулсан Итали амт.</p>
+            <div class="pt-4">
+                <a href="#boutique" data-i18n="shopNow" class="inline-block bg-gold hover:bg-gold/90 text-luxuryBlack font-medium tracking-widest text-xs uppercase px-8 py-4 transition-all duration-300 shadow-xl">Одоо Шоппинг Хийх</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOUTIQUE / PRODUCT CATALOG -->
+    <section id="boutique" class="py-24 px-4 md:px-12 bg-ivory">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-gold uppercase tracking-widest text-xs font-semibold">Scent of M Collection</span>
+                <h2 class="text-3xl md:text-5xl font-luxury text-espresso mt-2">The Boutique Menu</h2>
+                <div class="w-12 h-[1px] bg-gold mx-auto mt-4"></div>
+            </div>
+
+            <!-- Categories Filter -->
+            <div id="categories-bar" class="flex flex-wrap justify-center gap-2 mb-12 text-xs uppercase tracking-wider"></div>
+
+            <!-- Products Grid -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-24 bg-luxuryBlack text-ivory border-t border-b border-gold/20">
+        <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="relative overflow-hidden aspect-[3/4] bg-espresso">
+                <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&q=80&w=1000" class="object-cover w-full h-full opacity-80" alt="Craftsmanship">
+            </div>
+            <div class="space-y-6">
+                <span class="text-gold text-xs uppercase tracking-widest">Since 2025</span>
+                <h2 data-i18n="aboutTitle" class="text-4xl font-luxury text-gold">Бидний Түүх</h2>
+                <p data-i18n="aboutText" class="text-ivory/70 text-sm leading-relaxed font-light">Scent of M нь зөвхөн кофе шопоос гадна Италийн гар урлал, соёл, тансаг зэрэглэлийн илэрхийлэл юм. Бид дэлхийн хамгийн шилдэг үрсийг уламжлалт аргаар хуурч, аяга бүрт төгс чанарыг шингээдэг.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT & MAP -->
+    <section id="contact" class="py-24 bg-ivory text-espresso px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+            <div class="space-y-6 justify-center flex flex-col">
+                <h2 data-i18n="contactTitle" class="text-4xl font-luxury text-luxuryBlack">Холбоо Барих</h2>
+                <div class="w-12 h-[1px] bg-gold"></div>
+                
+                <div class="space-y-4 text-sm font-light text-luxuryBlack/80">
+                    <p class="flex items-center"><strong class="w-24 text-espresso uppercase tracking-wider text-xs font-semibold">Address:</strong> Ground Floor, Golomt Bank Building, Zamiin-Uud, Mongolia</p>
+                    <p class="flex items-center"><strong class="w-24 text-espresso uppercase tracking-wider text-xs font-semibold">Phone:</strong> +976 9191469</p>
+                    <p class="flex items-center"><strong class="w-24 text-espresso uppercase tracking-wider text-xs font-semibold">Email:</strong> scentofm25@gmail.com</p>
+                    <p class="flex items-center"><strong class="w-24 text-espresso uppercase tracking-wider text-xs font-semibold">Hours:</strong> 08:00 – 22:00 Daily</p>
+                </div>
+            </div>
+            <div class="w-full h-80 bg-beige/30 border border-gold/30 shadow-inner overflow-hidden relative">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1111!2d111.11!3d43.71!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDQyJzEwLjAiTiAxMTHCsDA2JzM2LjAiRQ!5e0!3m2!1smn!2smn!4v1700000000000" class="w-full h-full border-0 grayscale invert" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIDE CART SLIDEOVER -->
+    <div id="cart-sidebar" class="fixed inset-y-0 right-0 max-w-full flex z-50 transform translate-x-full transition-transform duration-500 ease-in-out">
+        <div class="w-screen max-w-md bg-luxuryBlack text-ivory shadow-2xl flex flex-col border-l border-gold/20">
+            <div class="p-6 border-b border-gold/20 flex justify-between items-center">
+                <h2 data-i18n="cartTitle" class="text-xl font-luxury tracking-wider text-gold">Таны Сагс</h2>
+                <button onclick="toggleCart()" class="text-ivory hover:text-gold">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+            <div class="p-6 border-t border-gold/20 bg-luxuryBlack/50 space-y-4">
+                <div class="flex justify-between text-sm uppercase tracking-wider">
+                    <span data-i18n="total">Нийт</span>
+                    <span id="cart-total" class="text-gold font-bold">0 ₮</span>
+                </div>
+                <button onclick="openCheckout()" class="w-full bg-gold text-luxuryBlack py-3 text-xs uppercase tracking-widest font-semibold hover:bg-gold/90 transition">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- OWNER EDIT MODAL (НУУЦ ПАНЕЛЬ) -->
+    <div id="owner-modal" class="fixed inset-0 bg-luxuryBlack/90 z-50 hidden backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-ivory text-luxuryBlack max-w-lg w-full p-8 shadow-2xl border border-gold/30 max-h-[90vh] overflow-y-auto relative">
+            <button onclick="closeOwnerModal()" class="absolute top-4 right-4 text-espresso hover:text-gold">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 class="text-2xl font-luxury text-espresso mb-2">Owner Portal</h2>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-6">Бүтээгдэхүүний үнэ, зураг засах</p>
+            
+            <form id="owner-form" onsubmit="saveProductChanges(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="edit-p-id">
+                <div>
+                    <label class="block uppercase font-semibold text-gray-600 mb-1">Үнэ (₮)</label>
+                    <input type="number" id="edit-p-price" required class="w-full bg-white border border-espresso/20 p-2 text-sm outline-none focus:border-gold">
+                </div>
+                <div>
+                    <label class="block uppercase font-semibold text-gray-600 mb-1">Зургийн Линк (Image URL)</label>
+                    <input type="url" id="edit-p-img" required class="w-full bg-white border border-espresso/20 p-2 text-sm outline-none focus:border-gold">
+                    <p class="text-[9px] text-gray-400 mt-1">Unsplash эсвэл дурын онлайн зургийн линк тавина.</p>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div>
+                        <label class="block uppercase font-semibold text-gray-400 mb-1">Нэр (MN)</label>
+                        <input type="text" id="edit-p-name-mn" required class="w-full bg-white border border-espresso/20 p-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block uppercase font-semibold text-gray-400 mb-1">Name (EN)</label>
+                        <input type="text" id="edit-p-name-en" required class="w-full bg-white border border-espresso/20 p-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block uppercase font-semibold text-gray-400 mb-1">名字 (ZH)</label>
+                        <input type="text" id="edit-p-name-zh" required class="w-full bg-white border border-espresso/20 p-2 outline-none">
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-gold text-luxuryBlack py-3 text-xs uppercase tracking-widest font-bold mt-4 hover:bg-gold/90 transition">Өөрчлөлтийг хадгалах</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkout-modal" class="fixed inset-0 bg-luxuryBlack/80 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-ivory text-luxuryBlack max-w-lg w-full p-8 shadow-2xl border border-gold/30 max-h-[90vh] overflow-y-auto relative">
+            <button onclick="closeCheckout()" class="absolute top-4 right-4 text-espresso hover:text-gold">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h2 data-i18n="checkoutTitle" class="text-3xl font-luxury text-espresso mb-6">Захиалга Баталгаажуулах</h2>
+            <form id="checkout-form" onsubmit="handleOrderSubmit(event)" class="space-y-4 text-xs tracking-wide">
+                <div>
+                    <label class="block uppercase text-espresso font-semibold mb-1">Name</label>
+                    <input type="text" required class="w-full bg-transparent border border-espresso/30 p-2 outline-none focus:border-gold">
+                </div>
+                <div>
+                    <label class="block uppercase text-espresso font-semibold mb-1">Phone Number</label>
+                    <input type="tel" required class="w-full bg-transparent border border-espresso/30 p-2 outline-none focus:border-gold">
+                </div>
+                <div>
+                    <label class="block uppercase text-espresso font-semibold mb-1">Email</label>
+                    <input type="email" required class="w-full bg-transparent border border-espresso/30 p-2 outline-none focus:border-gold">
+                </div>
+                <div>
+                    <label class="block uppercase text-espresso font-semibold mb-1">Options</label>
+                    <select id="delivery-option" onchange="toggleAddressField()" class="w-full bg-transparent border border-espresso/30 p-2 outline-none focus:border-gold">
+                        <option value="pickup">Pickup (Очиж авах)</option>
+                        <option value="delivery">Delivery (Хүргэлт)</option>
+                    </select>
+                </div>
+                <div id="address-field" class="hidden">
+                    <label class="block uppercase text-espresso font-semibold mb-1">Delivery Address</label>
+                    <textarea class="w-full bg-transparent border border-espresso/30 p-2 outline-none focus:border-gold" rows="2"></textarea>
+                </div>
+                <div>
+                    <label class="block uppercase text-espresso font-semibold mb-1">Payment Method</label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="payment" checked class="accent-gold"> Card / Дансаар</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="payment" class="accent-gold"> Cash / Бэлнээр</label>
+                    </div>
+                </div>
+                <div class="border-t border-espresso/20 pt-4 mt-6">
+                    <div class="flex justify-between text-sm uppercase font-bold mb-4">
+                        <span>Grand Total:</span>
+                        <span id="checkout-total-val" class="text-espresso">0 ₮</span>
+                    </div>
+                    <button type="submit" data-i18n="placeOrder" class="w-full bg-espresso text-ivory py-3 text-xs uppercase tracking-widest font-semibold hover:bg-luxuryBlack transition">Захиалга Өгөх</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER WITH OWNER PORTAL LINK -->
+    <footer class="bg-luxuryBlack py-12 text-center text-[10px] tracking-widest text-ivory/40 uppercase border-t border-gold/10 space-y-4">
+        <div>&copy; 2026 Scent of M Luxury Boutique. All Rights Reserved.</div>
+        <div>
+            <button onclick="loginOwner()" class="text-gold/50 hover:text-gold transition border border-gold/20 px-3 py-1 text-[9px]">🗝️ Owner Portal</button>
+        </div>
+    </footer>
+
+    <!-- LOGIC & PRODUCTS INJECTION -->
+    <script>
+        const initialProducts = [
+            { id: 1, category: 'Espresso', price: 6500, img: 'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?auto=format&fit=crop&q=80&w=500', name: { mn: 'Итали Эспрессо', en: 'Classic Espresso', zh: '意式浓缩' }, desc: { mn: 'Төгс хууралттай, баялаг крем бүхий соёл.', en: 'Rich, intense, topped with perfect crema.', zh: '浓郁经典，完美油脂香气。' } },
+            { id: 2, category: 'Cappuccino', price: 7500, img: 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&q=80&w=500', name: { mn: 'Капучино', en: 'Artisan Cappuccino', zh: '卡布奇诺' }, desc: { mn: 'Эспрессо, хөөсөн сүүний торгон мэдрэмж.', en: 'Velvety steamed milk with signature espresso.', zh: '细腻奶泡与经典浓缩的完美交融。' } },
+            { id: 3, category: 'Latte', price: 8000, img: 'https://images.unsplash.com/photo-1570968915860-54d5c301fc9f?auto=format&fit=crop&q=80&w=500', name: { mn: 'Кафэ Латтэ', en: 'Caffè Latte', zh: '拿铁咖啡' }, desc: { mn: 'Зөөлөн сүүн давхарга, хөнгөн тансаг амт.', en: 'Smooth, creamy, lightly aromatic luxury.', zh: '丝滑口感，奶香浓郁。' } },
+            { id: 4, category: 'Americano', price: 6800, img: 'https://images.unsplash.com/photo-1551046713-bc47f6d37cab?auto=format&fit=crop&q=80&w=500', name: { mn: 'Американо', en: 'Prestige Americano', zh: '美式咖啡' }, desc: { mn: 'Цэвэршүүлсэн халуун усаар баяжуулсан шүүлт.', en: 'Deep aromatic profile refined with water.', zh: '纯粹顺滑，香气深邃。' } },
+            { id: 5, category: 'Mocha', price: 8500, img: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&q=80&w=500', name: { mn: 'Кафэ Мока', en: 'Luxury Caffè Mocha', zh: '摩卡咖啡' }, desc: { mn: 'Хар шоколад, эспрессоны люкс хослол.', en: 'Rich dark chocolate infused with premium espresso.', zh: '黑巧克力与浓缩咖啡的奢华结合。' } },
+            { id: 6, category: 'Signature Coffee', price: 12000, img: 'https://images.unsplash.com/photo-1497515114629-f71d768fd07c?auto=format&fit=crop&q=80&w=500', name: { mn: 'Scent of M Сигнатур', en: 'Scent of M Signature', zh: 'M专属招牌咖啡' }, desc: { mn: 'Алтан үртэй, брэндийн нууц жор.', en: 'Infused with gold flake accents, our house secret.', zh: '融入金箔点缀，专属秘制配方。' } },
+            { id: 7, category: 'Tea', price: 9000, img: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=80&w=500', name: { mn: 'Хааны Цай', en: 'Imperial Herbal Tea', zh: '皇家花草茶' }, desc: { mn: 'Тайвшруулах үйлчилгээтэй ургамлын дээж.', en: 'A premium selection of handpicked botanical herbs.', zh: '手摘优质草本，清香安神。' } },
+            { id: 8, category: 'Fresh Juice', price: 9500, img: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&q=80&w=500', name: { mn: 'Шинэ Шахсан Шүүс', en: 'Cold-Pressed Elixir', zh: '冷榨鲜果汁' }, desc: { mn: '100% цэвэр, органик жимсний охь.', en: '100% organic, vitamins sealed in pure state.', zh: '100% 有机原汁，锁住纯净维他命。' } },
+            { id: 9, category: 'Smoothies', price: 10000, img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&q=80&w=500', name: { mn: 'Велнесс Смүүти', en: 'Velvet Wellness Smoothie', zh: '丝绒健康奶昔' }, desc: { mn: 'Төгс бүтцэтэй, шинэхэн жимсний смүүти.', en: 'Rich texture crafted from premium exotic fruits.', zh: '口感臻滑，精选热带鲜果精制。' } },
+            { id: 10, category: 'Cakes', price: 14000, img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&q=80&w=500', name: { mn: 'Алтан Трюфель Бялуу', en: 'Gold Truffle Cake', zh: '金箔松露蛋糕' }, desc: { mn: 'Тансаг зэрэглэлийн Бельги шоколадны амт.', en: 'Exquisite Belgian chocolate layers with gold leaf.', zh: '精美比利时巧克力层，覆以金箔。' } },
+            { id: 11, category: 'Desserts', price: 11000, img: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&q=80&w=500', name: { mn: 'Итали Тирамису', en: 'Artisan Tiramisu', zh: '正宗提拉米苏' }, desc: { mn: 'Маскарпоне бяслаг болон Масала дарсны амт.', en: 'Traditional Italian recipe with premium mascarpone.', zh: '传统意式配方，马斯卡彭干酪的醇香。' } },
+            { id: 12, category: 'Pastries', price: 6000, img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=500', name: { mn: 'Франц Круассан', en: 'Buttery French Croissant', zh: '法式酥香牛角包' }, desc: { mn: 'Торгон цөцгийн тостой, үйрмэг нарийн боов.', en: 'Flaky, buttery pastry sheets layered to perfection.', zh: '层层酥脆，浓郁黄油香气。' } }
+        ];
+
+        // Load saved data from iPad Local Storage or use default
+        let productsData = JSON.parse(localStorage.getItem('scent_of_m_products')) || initialProducts;
+        let cart = [];
+        let selectedCategory = 'All';
+        let isOwner = false;
+
+        const categories = ['All', ...new Set(productsData.map(p => p.category))];
+
+        function renderCategories() {
+            const container = document.getElementById('categories-bar');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="filterCategory('${cat}')" class="px-4 py-2 border ${selectedCategory === cat ? 'border-gold bg-gold text-luxuryBlack' : 'border-espresso/20 text-espresso hover:border-gold'} transition">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function filterCategory(cat) {
+            selectedCategory = cat;
+            renderCategories();
+            renderCatalog();
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById('products-grid');
+            const filtered = selectedCategory === 'All' ? productsData : productsData.filter(p => p.category === selectedCategory);
+            
+            grid.innerHTML = filtered.map(product => `
+                <div class="bg-white border border-gold/10 group shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative">
+                    ${isOwner ? `<button onclick="openOwnerEdit(${product.id})" class="absolute top-2 right-2 bg-gold text-luxuryBlack text-[10px] font-bold px-2 py-1 z-10 shadow">✏️ Засах</button>` : ''}
+                    <div class="overflow-hidden aspect-square bg-gray-100 relative">
+                        <img src="${product.img}" alt="${product.name[currentLang]}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <span class="absolute top-2 left-2 bg-luxuryBlack/80 text-gold text-[9px] uppercase tracking-widest px-2 py-1">${product.category}</span>
+                    </div>
+                    <div class="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-luxury text-xl text-espresso font-semibold tracking-wide">${product.name[currentLang]}</h3>
+                            <p class="text-xs text-gray-500 font-light mt-1">${product.desc[currentLang]}</p>
+                        </div>
+                        <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-sm font-semibold text-luxuryBlack">${product.price.toLocaleString()} ₮</span>
+                            <button onclick="addToCart(${product.id})" class="text-xs uppercase tracking-widest bg-luxuryBlack hover:bg-gold text-ivory hover:text-luxuryBlack px-3 py-2 transition font-medium">Add To Cart</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // OWNER EDIT SYSTEM LOGIC
+        function loginOwner() {
+            const password = prompt("Owner нууц үгээ оруулна уу:");
+            if (password === "admin123") {
+                isOwner = true;
+                alert("Owner горим идэвхжлээ. Бүтээгдэхүүн бүрийн дээр 'Засах' товч гарч ирсэн.");
+                renderCatalog();
+            } else {
+                alert("Нууц үг буруу байна.");
+            }
+        }
+
+        function openOwnerEdit(id) {
+            const product = productsData.find(p => p.id === id);
+            document.getElementById('edit-p-id').value = product.id;
+            document.getElementById('edit-p-price').value = product.price;
+            document.getElementById('edit-p-img').value = product.img;
+            document.getElementById('edit-p-name-mn').value = product.name.mn;
+            document.getElementById('edit-p-name-en').value = product.name.en;
+            document.getElementById('edit-p-name-zh').value = product.name.zh;
+            document.getElementById('owner-modal').classList.remove('hidden');
+        }
+
+        function closeOwnerModal() {
+            document.getElementById('owner-modal').classList.add('hidden');
+        }
+
+        function saveProductChanges(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('edit-p-id').value);
+            const product = productsData.find(p => p.id === id);
+            
+            product.price = parseFloat(document.getElementById('edit-p-price').value);
+            product.img = document.getElementById('edit-p-img').value;
+            product.name.mn = document.getElementById('edit-p-name-mn').value;
+            product.name.en = document.getElementById('edit-p-name-en').value;
+            product.name.zh = document.getElementById('edit-p-name-zh').value;
+
+            // Save to LocalStorage
+            localStorage.setItem('scent_of_m_products', JSON.stringify(productsData));
+            
+            alert("Амжилттай хадгалагдлаа!");
+            closeOwnerModal();
+            renderCatalog();
+        }
+
+        // CART & CHECKOUT LOGIC
+        function toggleCart() {
+            document.getElementById('cart-sidebar').classList.toggle('translate-x-full');
+        }
+
+        function addToCart(id) {
+            const item = productsData.find(p => p.id === id);
+            const inCart = cart.find(c => c.id === id);
+            if (inCart) { inCart.qty++; } else { cart.push({ ...item, qty: 1 }); }
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const countLabel = document.getElementById('cart-count');
+            const totalLabel = document.getElementById('cart-total');
+            let total = 0, count = 0;
+
+            cartItemsContainer.innerHTML = cart.map(item => {
+                total += item.price * item.qty;
+                count += item.qty;
+                return `
+                    <div class="flex items-center justify-between border-b border-gold/10 pb-4 text-xs">
+                        <div class="flex items-center space-x-3">
+                            <img src="${item.img}" class="w-12 h-12 object-cover border border-gold/20">
+                            <div>
+                                <h4 class="font-luxury text-sm text-gold">${item.name[currentLang]}</h4>
+                                <p class="text-ivory/60">${item.price.toLocaleString()} ₮ x ${item.qty}</p>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-600">Remove</button>
+                    </div>
+                `;
+            }).join('');
+
+            countLabel.innerText = count;
+            totalLabel.innerText = total.toLocaleString() + ' ₮';
+            document.getElementById('checkout-total-val').innerText = total.toLocaleString() + ' ₮';
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(c => c.id !== id);
+            updateCart();
+        }
+
+        function openCheckout() {
+            if(cart.length === 0) return alert(currentLang === 'mn' ? 'Сагс хоосон байна.' : 'Your bag is empty.');
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckout() { document.getElementById('checkout-modal').classList.add('hidden'); }
+
+        function toggleAddressField() {
+            const option = document.getElementById('delivery-option').value;
+            document.getElementById('address-field').classList.toggle('hidden', option !== 'delivery');
+        }
+
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            alert(translations[currentLang].orderSuccess);
+            cart = [];
+            updateCart();
+            closeCheckout();
+            toggleCart();
+        }
+
+        // Startup
+        renderCategories();
+        renderCatalog();
+    </script>
